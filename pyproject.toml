@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-scm>=8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kernelrl"
+dynamic = ["version"]
+description = "Kernel RL development tool."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: Apache Software License",
+]
+
+dependencies = [
+  "IPython",
+  "sglang",
+  "tqdm"
+]
+
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+default = true
+
+[[tool.uv.index]]
+name = "torch-cu129"
+url = "https://download.pytorch.org/whl/cu129"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+  { index = "pypi", marker = "platform_machine == 'x86_64'"},
+  { index = "torch-cu129", marker = "platform_machine == 'aarch64'"},
+]
+
+[tool.uv.extra-build-dependencies]
+st-attn = ["torch", "setuptools"]
+vsa = ["torch", "setuptools"]
+
+[tool.setuptools.packages.find]
+exclude = [
+  "assets*",
+  "benchmark*",
+  "docs*",
+  "dist*",
+  "playground*",
+  "scripts*",
+  "tests*",
+]
+
+[tool.wheel]
+exclude = [
+  "assets*",
+  "benchmark*",
+  "docs*",
+  "dist*",
+  "playground*",
+  "scripts*",
+  "tests*",
+]
+
+[tool.setuptools_scm]
+root = ".."
+version_file = "kernelrl/version.py"
+git_describe_command = ["bash", "-c", "git tag --list --sort=-version:refname 'v*.*.*' | head -1 | xargs git describe --tags --long"]
+# Allow editable installs even when .git metadata is not available.
+fallback_version = "0.0.0.dev0"
