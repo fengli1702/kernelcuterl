@@ -16,7 +16,6 @@ classifiers = [
 
 dependencies = [
   "IPython",
-  "sglang",
   "tqdm"
 ]
 
@@ -61,10 +60,3 @@ exclude = [
   "scripts*",
   "tests*",
 ]
-
-[tool.setuptools_scm]
-root = ".."
-version_file = "kernelrl/version.py"
-git_describe_command = ["bash", "-c", "git tag --list --sort=-version:refname 'v*.*.*' | head -1 | xargs git describe --tags --long"]
-# Allow editable installs even when .git metadata is not available.
-fallback_version = "0.0.0.dev0"
