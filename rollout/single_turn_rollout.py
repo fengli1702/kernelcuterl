@@ -55,6 +55,17 @@ except Exception as _import_exc:  # pragma: no cover
     )
     print(_IMPORT_ERROR_MSG, file=sys.stderr)
 
+# Try importing eval_pipeline; warn gracefully if unavailable
+try:
+    from kernelrl.eval.pipeline import run_eval_pipeline
+except Exception as _pipeline_import_exc:  # pragma: no cover
+    run_eval_pipeline = None  # type: ignore
+    _PIPELINE_IMPORT_MSG = (
+        f"[WARN] Failed to import kernelrl.eval.pipeline: {_pipeline_import_exc}\n"
+        "The script will continue, but --use-pipeline flag will be unavailable."
+    )
+    print(_PIPELINE_IMPORT_MSG, file=sys.stderr)
+
 
 # ---------------------------------------------------------------------------
 # Data models
@@ -185,6 +196,54 @@ def evaluate_kernel(kernel_code: Optional[str], reference: str) -> Dict[str, Any
         return result
     except Exception as exc:
         return {"correct": False, "error": str(exc), "traceback": traceback.format_exc()}
+
+
+def evaluate_kernel_with_pipeline(
+    kernel_code: Optional[str],
+    reference: str,
+    use_compile: bool = True,
+    use_timing: bool = False,
+    use_hack_check: bool = True,
+) -> Dict[str, Any]:
+    """Call eval_pipeline for comprehensive kernel evaluation.
+
+    Returns pipeline evaluation result with compilation, timing, and hack check.
+    Falls back to simple eval if pipeline unavailable.
+    """
+    if run_eval_pipeline is None or kernel_code is None:
+        return evaluate_kernel(kernel_code, reference)
+
+    try:
+        pipeline_request = {
+            "reference_code": reference,
+            "generated_code": kernel_code,
+            "compile": {"code": kernel_code, "language": "cuda"} if use_compile else None,
+            "timing": {} if use_timing else None,
+            "hack_check": {"code": kernel_code} if use_hack_check else None,
+            "gates": {
+                "require_compile_ok": use_compile,
+                "require_timing_ok": False,
+                "require_hack_clean": use_hack_check,
+            },
+        }
+        # Remove None values
+        pipeline_request = {k: v for k, v in pipeline_request.items() if v is not None}
+
+        result = run_eval_pipeline(pipeline_request)
+        return {
+            "pipeline_ok": result.get("ok", False),
+            "pipeline_status": result.get("status"),
+            "pipeline_result": result,
+            # Include gate results for quick assessment
+            "compile_ok": result.get("gate_results", {}).get("compile_gate", False),
+            "hack_clean": result.get("gate_results", {}).get("hack_gate", False),
+        }
+    except Exception as exc:
+        return {
+            "pipeline_ok": False,
+            "error": str(exc),
+            "traceback": traceback.format_exc(),
+        }
 
 
 def compute_item_summary(samples: List[SampleResult]) -> Dict[str, Any]:
@@ -392,7 +451,17 @@ async def process_item(
     samples: List[SampleResult] = []
     for text in texts:
         kernel_code = extract_kernel(text)
-        eval_res = evaluate_kernel(kernel_code, reference)
+        # Use pipeline evaluation if enabled, otherwise use standard evaluation
+        if args.use_pipeline:
+            eval_res = evaluate_kernel_with_pipeline(
+                kernel_code,
+                reference,
+                use_compile=args.pipeline_compile,
+                use_timing=args.pipeline_timing,
+                use_hack_check=args.pipeline_hack_check,
+            )
+        else:
+            eval_res = evaluate_kernel(kernel_code, reference)
         samples.append(
             SampleResult(
                 text=text,
@@ -483,7 +552,7 @@ async def run_rollout(
     return results
 
 
-def run_eval_on_records(records: List[Dict[str, Any]]) -> List[ItemResult]:
+def run_eval_on_records(records: List[Dict[str, Any]], use_pipeline: bool = False, **pipeline_kwargs: Any) -> List[ItemResult]:
     """Re-run detector + eval on existing rollout records."""
     print(f"[INFO] Starting evaluation for {len(records)} records")
     results: List[ItemResult] = []
@@ -497,7 +566,17 @@ def run_eval_on_records(records: List[Dict[str, Any]]) -> List[ItemResult]:
         for s in rec.get("samples", []):
             text = s.get("text", "")
             kernel_code = extract_kernel(text)
-            eval_res = evaluate_kernel(kernel_code, reference)
+            # Use pipeline evaluation if enabled
+            if use_pipeline:
+                eval_res = evaluate_kernel_with_pipeline(
+                    kernel_code,
+                    reference,
+                    use_compile=pipeline_kwargs.get("pipeline_compile", True),
+                    use_timing=pipeline_kwargs.get("pipeline_timing", False),
+                    use_hack_check=pipeline_kwargs.get("pipeline_hack_check", True),
+                )
+            else:
+                eval_res = evaluate_kernel(kernel_code, reference)
             samples.append(
                 SampleResult(
                     text=text,
@@ -545,6 +624,16 @@ async def main_async(args: argparse.Namespace) -> None:
     save_path = args.save_path
     checkpoint_path = args.checkpoint_path or (save_path + ".checkpoint.jsonl")
 
+    # Prepare pipeline kwargs if enabled
+    pipeline_kwargs = {}
+    if args.use_pipeline:
+        pipeline_kwargs = {
+            "pipeline_compile": args.pipeline_compile,
+            "pipeline_timing": args.pipeline_timing,
+            "pipeline_hack_check": args.pipeline_hack_check,
+        }
+        print(f"[INFO] Using eval_pipeline with: compile={args.pipeline_compile}, timing={args.pipeline_timing}, hack_check={args.pipeline_hack_check}")
+
     # 1. Check whether save_path exists
     if os.path.exists(save_path):
         existing_records_raw = load_jsonl(save_path)
@@ -569,7 +658,7 @@ async def main_async(args: argparse.Namespace) -> None:
 
         # 1c. Rollout complete but eval incomplete -> re-evaluate
         print("[INFO] Rollout complete but evaluation incomplete; starting re-evaluation")
-        results = run_eval_on_records(existing_records_raw)
+        results = run_eval_on_records(existing_records_raw, use_pipeline=args.use_pipeline, **pipeline_kwargs)
         save_final_results(results, args, checkpoint_path)
         return
 
@@ -602,6 +691,45 @@ def main() -> None:
         help="Save a checkpoint every N processed items (<=0 disables intermediate checkpoints)",
     )
     parser.add_argument("--checkpoint-path", default=None, help="Checkpoint file path; defaults to {save-path}.checkpoint.jsonl")
+
+    # Evaluation pipeline options
+    parser.add_argument(
+        "--use-pipeline",
+        action="store_true",
+        default=False,
+        help="Use kernelrl.eval.pipeline for comprehensive evaluation (compile, timing, hack check)",
+    )
+    parser.add_argument(
+        "--pipeline-compile",
+        action="store_true",
+        default=True,
+        help="Enable compilation checking in pipeline (default: True)",
+    )
+    parser.add_argument(
+        "--no-pipeline-compile",
+        action="store_false",
+        dest="pipeline_compile",
+        help="Disable compilation checking in pipeline",
+    )
+    parser.add_argument(
+        "--pipeline-timing",
+        action="store_true",
+        default=False,
+        help="Enable timing/benchmarking in pipeline (default: False)",
+    )
+    parser.add_argument(
+        "--pipeline-hack-check",
+        action="store_true",
+        default=True,
+        help="Enable hack/security checking in pipeline (default: True)",
+    )
+    parser.add_argument(
+        "--no-pipeline-hack-check",
+        action="store_false",
+        dest="pipeline_hack_check",
+        help="Disable hack/security checking in pipeline",
+    )
+
     args = parser.parse_args()
 
     if args.n <= 0:
