@@ -1,0 +1,7 @@
+release_date: 2026-04-12
+description: decontam-cleaned dataset after AST+semantic-IR+embedding dedup and eval-leak screening
+source_file: /home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam.jsonl
+report_file: /home/i_lidaifeng/dataset/final_dataset_report_zh.md
+contamination_report: /home/i_lidaifeng/dataset/data/metadata/stats/eval_contamination_ir_embedding_report.json
+rows: 21227
+size_bytes: 493209784
