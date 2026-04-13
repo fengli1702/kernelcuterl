@@ -5,6 +5,8 @@ Contents:
 - `canonical_20260412_decontam.tar.zst.sha256`: full archive checksum
 - `canonical_20260412_decontam.parts.sha256`: per-part checksums
 - `manifest.txt`: source/row metadata
+- `final_dataset_report_zh.md`: final release distribution/composition report
+- `eval_contamination_ir_embedding_report.json`: eval leakage cleaning report
 
 Reconstruct:
 ```bash
