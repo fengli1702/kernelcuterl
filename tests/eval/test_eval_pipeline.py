@@ -11,6 +11,7 @@ Tests cover:
 
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from kernelrl.eval.pipeline import (
@@ -18,6 +19,7 @@ from kernelrl.eval.pipeline import (
     run_eval_pipeline,
     run_hack_check_module,
 )
+from kernelrl.eval.pipeline.correctness_module import run_correctness_module
 from kernelrl.eval.pipeline.protocol import (
     elapsed_ms,
     started_timer,
@@ -349,6 +351,18 @@ def get_result():
 
         gates = result.get("gate_results", {})
         self.assertFalse(gates.get("hack_gate", True))
+
+    def test_correctness_skipped_when_torch_missing(self):
+        """Correctness should be skipped instead of failed when torch is unavailable."""
+        with patch("kernelrl.eval.pipeline.correctness_module.importlib.util.find_spec", return_value=None):
+            result = run_correctness_module({
+                "reference_code": "x = 1",
+                "generated_code": "y = 2",
+                "skip_if_no_torch": True,
+            })
+
+        self.assertTrue(result.get("ok", False))
+        self.assertEqual(result.get("status"), "skipped")
 
 
 if __name__ == "__main__":

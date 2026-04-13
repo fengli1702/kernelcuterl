@@ -11,6 +11,7 @@ import re
 from typing import Any
 
 from .compile_module import run_compile_module
+from .correctness_module import run_correctness_module
 from .hack_check_module import run_hack_check_module
 from .protocol import elapsed_ms, started_timer, utc_now_iso
 from .timing_module import run_timing_module
@@ -19,6 +20,7 @@ from .timing_module import run_timing_module
 DEFAULT_GATES = {
     "require_compile_ok": True,
     "require_timing_ok": False,
+    "require_correctness_ok": False,
     "require_hack_clean": True,
 }
 
@@ -64,6 +66,7 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
     - generated_code_min_len: int (optional, default 48)
     - compile: dict (optional)
     - timing: dict (optional)
+    - correctness: dict (optional)
     - hack_check: dict (optional)
     - gates: dict (optional)
 
@@ -80,6 +83,7 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
       "modules": {
         "hack_check": {...},
         "compile": {...},
+        "correctness": {...},
         "timing": {...}
       },
       "summary": {...}
@@ -92,6 +96,7 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
 
     compile_req = dict(request.get("compile") or {})
     timing_req = dict(request.get("timing") or {})
+    correctness_req = dict(request.get("correctness") or {})
     hack_req = dict(request.get("hack_check") or {})
     gates = {**DEFAULT_GATES, **dict(request.get("gates") or {})}
 
@@ -141,6 +146,11 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
         if "reference_setup_fn" in timing_req and "generated_setup_fn" not in timing_req:
             timing_req["generated_setup_fn"] = timing_req.get("reference_setup_fn")
 
+    correctness_req.setdefault("reference_code", reference_code)
+    correctness_req.setdefault("generated_code", effective_generated_code)
+    correctness_req.setdefault("generated_code_truncated", is_generated_truncated)
+    correctness_req.setdefault("generated_code_truncation_reason", truncated_reason)
+
     if not hack_req.get("code") and isinstance(effective_generated_code, str):
         hack_req["code"] = effective_generated_code
 
@@ -154,6 +164,29 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
         "metrics": {},
         "artifacts": {},
     }
+
+    # Run correctness check if enabled and compile passed
+    correctness_allowed_without_compile = bool(correctness_req.get("allow_without_compile", False))
+    can_run_correctness = bool(correctness_req) and (compile_result.get("ok") or correctness_allowed_without_compile)
+
+    if can_run_correctness:
+        correctness_result = run_correctness_module(correctness_req)
+    else:
+        correctness_result = {
+            "module": "correctness",
+            "ok": False,
+            "status": "skipped",
+            "issues": [
+                {
+                    "id": "correctness_skipped_due_to_compile",
+                    "severity": "medium",
+                    "message": "Correctness skipped because compile did not pass and allow_without_compile is false",
+                }
+            ],
+            "errors": [],
+            "metrics": {},
+            "artifacts": {},
+        }
 
     timing_allowed_without_compile = bool(timing_req.get("allow_without_compile", False))
     can_run_timing = bool(timing_req) and (compile_result.get("ok") or timing_allowed_without_compile)
@@ -179,6 +212,7 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
 
     gate_results = {
         "compile_gate": (not gates["require_compile_ok"]) or bool(compile_result.get("ok")),
+        "correctness_gate": (not gates["require_correctness_ok"]) or bool(correctness_result.get("ok")),
         "timing_gate": (not gates["require_timing_ok"]) or bool(timing_result.get("ok")),
         "hack_gate": (not gates["require_hack_clean"]) or bool(hack_result.get("ok")),
     }
@@ -189,11 +223,13 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
     issues_total = (
         len(hack_result.get("issues", []))
         + len(compile_result.get("issues", []))
+        + len(correctness_result.get("issues", []))
         + len(timing_result.get("issues", []))
     )
     errors_total = (
         len(hack_result.get("errors", []))
         + len(compile_result.get("errors", []))
+        + len(correctness_result.get("errors", []))
         + len(timing_result.get("errors", []))
     )
 
@@ -209,6 +245,7 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
         "modules": {
             "hack_check": hack_result,
             "compile": compile_result,
+            "correctness": correctness_result,
             "timing": timing_result,
         },
         "summary": {
@@ -227,6 +264,7 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
             "module_status": {
                 "hack_check": hack_result.get("status"),
                 "compile": compile_result.get("status"),
+                "correctness": correctness_result.get("status"),
                 "timing": timing_result.get("status"),
             },
             "compile": {
@@ -234,6 +272,15 @@ def run_eval_pipeline(request: dict[str, Any]) -> dict[str, Any]:
                 "error_category": (compile_result.get("metrics") or {}).get("error_category"),
                 "warnings_count": (compile_result.get("metrics") or {}).get("warnings_count"),
                 "errors_count": (compile_result.get("metrics") or {}).get("errors_count"),
+            },
+            "correctness": {
+                "correct": (correctness_result.get("metrics") or {}).get("correct"),
+                "error_type": (correctness_result.get("metrics") or {}).get("error_type"),
+                "max_diff": (correctness_result.get("metrics") or {}).get("max_diff"),
+                "mean_diff": (correctness_result.get("metrics") or {}).get("mean_diff"),
+                "rtol": (correctness_result.get("metrics") or {}).get("rtol"),
+                "atol": (correctness_result.get("metrics") or {}).get("atol"),
+                "num_outputs": (correctness_result.get("metrics") or {}).get("num_outputs"),
             },
             "timing": {
                 "mean_ms": (timing_result.get("metrics") or {}).get("mean_ms"),
