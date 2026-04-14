@@ -1,0 +1,27 @@
+{
+  "input_count": 21227,
+  "heldout_eval_count": 833,
+  "candidate_train_count": 20394,
+  "retained_count": 21227,
+  "removed_as_contaminated": 0,
+  "removed_by_reason": {},
+  "removed_by_source": {},
+  "removed_by_eval_source": {},
+  "removed_stage_exact_hash": 0,
+  "removed_stage_semantic_ir": 0,
+  "removed_stage_embedding": 0,
+  "embedding_scanned_pairs": 550,
+  "params": {
+    "cosine_threshold": 0.985,
+    "top_k": 8,
+    "min_text_length": 40
+  },
+  "notes": [
+    "Held-out set is selected by heldout_selector (typically source_split == eval).",
+    "Filtering pipeline: exact payload hash -> semantic_ir_signature overlap -> embedding cosine screening.",
+    "Held-out eval rows are always retained; only train-side candidates can be removed."
+  ],
+  "input_jsonl": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup.jsonl",
+  "output_jsonl": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam.jsonl",
+  "removed_jsonl": "/home/i_lidaifeng/dataset/data/interim/dedup/canonical_eval_contamination_removed.jsonl"
+}
