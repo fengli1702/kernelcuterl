@@ -1,12 +1,19 @@
 
 最终数据条数：`21227`
-最终发布文件：`data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull.jsonl`
+最终发布文件：`data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en_v2.jsonl`
 
 `query` 完整性修复（2026-04-14）：
 
 - 补齐条数：`819`（`computeeval=544`, `tritonbench=178`, `cudabench=97`）
 - 修复规则：将 `reference_artifacts.reference_code` 追加到 `query`（`Reference implementation` 代码块）
 - 修复后校验：`21227/21227` 条样本满足“`query` 含完整参考代码”
+
+`query` 英文化清洗（2026-04-15）：
+
+- 清洗输入：`..._decontam_queryfull.jsonl`
+- 清洗输出（最终）：`..._decontam_queryfull_en_v2.jsonl`
+- 清洗策略：优先翻译 `query` 非代码段；代码段中仅翻译注释/文档字符串；对极少数残留样本做非 ASCII 标识符与中文错误信息替换
+- 清洗结果：`query` 含中文从 `122` 条降到 `0` 条，同时保持 `reference_code` 全量非空且 `ref in query = 21227/21227`
 
 ## 2) 清洗与去重
 

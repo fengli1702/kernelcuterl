@@ -1,0 +1,84 @@
+{
+  "input": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull.jsonl",
+  "output": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en.jsonl",
+  "total_rows": 21227,
+  "translator_available": true,
+  "translator_calls": 709,
+  "translator_failures": 0,
+  "stats": {
+    "rows_no_zh_after": 21219,
+    "rows_with_ref": 21227,
+    "rows_ref_in_query": 21227,
+    "rows_with_zh_before": 122,
+    "reference_code_changed_rows": 117,
+    "query_replaced_old_reference": 117,
+    "rows_with_zh_after": 8,
+    "query_changed_rows": 23
+  },
+  "by_source": {
+    "kernelbench": {
+      "rows_no_zh_after": 244,
+      "rows_with_ref": 244,
+      "rows_ref_in_query": 244
+    },
+    "kernelbook": {
+      "rows_no_zh_after": 9086,
+      "rows_with_ref": 9092,
+      "rows_ref_in_query": 9092,
+      "rows_with_zh_before": 81,
+      "reference_code_changed_rows": 77,
+      "query_replaced_old_reference": 77,
+      "rows_with_zh_after": 6
+    },
+    "cuda_agent_ops_6k": {
+      "rows_no_zh_after": 4350,
+      "rows_with_ref": 4350,
+      "rows_ref_in_query": 4350,
+      "rows_with_zh_before": 2,
+      "reference_code_changed_rows": 2,
+      "query_replaced_old_reference": 2
+    },
+    "drkernel": {
+      "rows_no_zh_after": 6677,
+      "rows_with_ref": 6677,
+      "rows_ref_in_query": 6677
+    },
+    "cudabench": {
+      "rows_no_zh_after": 97,
+      "rows_with_ref": 97,
+      "rows_ref_in_query": 97,
+      "rows_with_zh_before": 2,
+      "reference_code_changed_rows": 2,
+      "query_replaced_old_reference": 2
+    },
+    "tritonbench": {
+      "rows_no_zh_after": 177,
+      "rows_with_ref": 178,
+      "rows_ref_in_query": 178,
+      "rows_with_zh_before": 14,
+      "reference_code_changed_rows": 14,
+      "query_replaced_old_reference": 14,
+      "rows_with_zh_after": 1
+    },
+    "computeeval": {
+      "rows_no_zh_after": 544,
+      "rows_with_ref": 544,
+      "rows_ref_in_query": 544
+    },
+    "multikernelbench": {
+      "rows_no_zh_after": 22,
+      "rows_with_ref": 22,
+      "rows_ref_in_query": 22
+    },
+    "xpuoj": {
+      "rows_with_zh_before": 23,
+      "reference_code_changed_rows": 22,
+      "query_replaced_old_reference": 22,
+      "query_changed_rows": 23,
+      "rows_no_zh_after": 22,
+      "rows_with_ref": 23,
+      "rows_ref_in_query": 23,
+      "rows_with_zh_after": 1
+    }
+  }
+}

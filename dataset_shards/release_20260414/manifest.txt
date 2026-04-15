@@ -1,8 +1,10 @@
-release_date: 2026-04-14
-description: decontam-cleaned dataset with query full prompt repair (reference code embedded in query)
-source_file: /home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull.jsonl
+release_date: 2026-04-15
+description: decontam-cleaned dataset with full-query repair and english-cleaned query text (v2)
+source_file: /home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en_v2.jsonl
 report_file: /home/i_lidaifeng/dataset/final_dataset_report_zh.md
 contamination_report: /home/i_lidaifeng/dataset/data/metadata/stats/eval_contamination_ir_embedding_report.json
 query_full_report: /home/i_lidaifeng/dataset/data/metadata/stats/query_full_backfill_report.json
+query_english_report_v1: /home/i_lidaifeng/dataset/data/metadata/stats/query_english_clean_report_20260415.json
+query_english_report_v2: /home/i_lidaifeng/dataset/data/metadata/stats/query_english_clean_report_20260415_v2.json
 rows: 21227
-size_bytes: 496127813
+size_bytes: 496145175

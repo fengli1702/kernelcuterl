@@ -1,0 +1,9 @@
+{
+  "input": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en.jsonl",
+  "output": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en_v2.jsonl",
+  "rows": 21227,
+  "changed_rows": 9,
+  "remaining_cjk_query_rows": 0,
+  "ref_not_in_query_rows": 0,
+  "cache_size": 15
+}
