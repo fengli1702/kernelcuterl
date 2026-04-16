@@ -1,0 +1,13 @@
+{
+  "input": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_eval_model_iface_v5_strict.jsonl",
+  "output": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_eval_model_iface_v6_strict.jsonl",
+  "ready_only_output": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_eval_model_iface_v6_strict_ready_only.jsonl",
+  "total_rows": 20586,
+  "patched_rows": 4,
+  "patched_sample_ids": [
+    "drkernel__007d664f660213c3",
+    "drkernel__13cf9e42c8629804",
+    "kernelbook__47d3bace953f9de7",
+    "kernelbook__9bbd78e745f458b1"
+  ]
+}

@@ -1,0 +1,11 @@
+release_date: 2026-04-16
+release_tag: release_20260416_v6
+description: release with eval-model strict-v6 interface normalization and empty-input patches
+source_file: /home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_eval_model_iface_v6_strict.jsonl
+source_rows: 20586
+size_bytes: 481718365
+notes:
+  - removed: cudabench + computeeval
+  - pipeline: modelnew-interface unification + kernelbench-style query + kbstyle refcode injection
+  - patch: fixed 4 empty-input cases
+  - contamination checks from previous decontam pipeline retained

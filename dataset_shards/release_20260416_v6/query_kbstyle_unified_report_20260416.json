@@ -1,0 +1,73 @@
+{
+  "input": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en_v2.jsonl",
+  "output": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en_v2_kbstyle.jsonl",
+  "total_rows": 21227,
+  "changed_query_rows": 21227,
+  "changed_query_prompt_only_rows": 21227,
+  "missing_reference_payload_rows": 0,
+  "rows_with_reference_code": 21227,
+  "rows_reference_code_in_query": 21227,
+  "by_source": {
+    "kernelbench": {
+      "changed_prompt_only": 244,
+      "changed_query": 244,
+      "rows": 244
+    },
+    "kernelbook": {
+      "changed_prompt_only": 9092,
+      "changed_query": 9092,
+      "rows": 9092
+    },
+    "cuda_agent_ops_6k": {
+      "changed_prompt_only": 4350,
+      "changed_query": 4350,
+      "rows": 4350
+    },
+    "drkernel": {
+      "changed_prompt_only": 6677,
+      "changed_query": 6677,
+      "rows": 6677
+    },
+    "cudabench": {
+      "changed_prompt_only": 97,
+      "changed_query": 97,
+      "rows": 97
+    },
+    "tritonbench": {
+      "changed_prompt_only": 178,
+      "changed_query": 178,
+      "rows": 178
+    },
+    "computeeval": {
+      "changed_prompt_only": 544,
+      "changed_query": 544,
+      "rows": 544
+    },
+    "multikernelbench": {
+      "changed_prompt_only": 22,
+      "changed_query": 22,
+      "rows": 22
+    },
+    "xpuoj": {
+      "changed_prompt_only": 23,
+      "changed_query": 23,
+      "rows": 23
+    }
+  },
+  "c_or_cuda_like_source_task_family_distribution": {
+    "cudabench": {
+      "text_to_kernel": 97
+    },
+    "computeeval": {
+      "text_to_kernel": 496
+    }
+  },
+  "c_or_cuda_like_source_target_backend_distribution": {
+    "cudabench": {
+      "cuda": 97
+    },
+    "computeeval": {
+      "cuda": 496
+    }
+  }
+}
