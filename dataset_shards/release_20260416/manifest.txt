@@ -1,0 +1,9 @@
+release_date: 2026-04-16
+description: cleaned dataset with unified kernelbench-style query and removed cudabench/computeeval
+artifact_base: kernelcuterl_20260416_clean
+source_file: /home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en_v2_kbstyle_no_cudabench_computeeval.jsonl
+source_rows: 20586
+size_bytes: 466620377
+notes:
+  - removed sources: cudabench, computeeval
+  - simplified artifact naming

@@ -1,0 +1,35 @@
+{
+  "input": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en_v2_kbstyle.jsonl",
+  "output": "/home/i_lidaifeng/dataset/data/processed/canonical_jsonl/canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar_semantic_ir_embedding_dedup_decontam_queryfull_en_v2_kbstyle_no_cudabench_computeeval.jsonl",
+  "drop_sources": [
+    "computeeval",
+    "cudabench"
+  ],
+  "rows_before": 21227,
+  "rows_after": 20586,
+  "rows_removed": 641,
+  "source_counts_before": {
+    "kernelbench": 244,
+    "kernelbook": 9092,
+    "cuda_agent_ops_6k": 4350,
+    "drkernel": 6677,
+    "cudabench": 97,
+    "tritonbench": 178,
+    "computeeval": 544,
+    "multikernelbench": 22,
+    "xpuoj": 23
+  },
+  "source_counts_removed": {
+    "cudabench": 97,
+    "computeeval": 544
+  },
+  "source_counts_after": {
+    "kernelbench": 244,
+    "kernelbook": 9092,
+    "cuda_agent_ops_6k": 4350,
+    "drkernel": 6677,
+    "tritonbench": 178,
+    "multikernelbench": 22,
+    "xpuoj": 23
+  }
+}
