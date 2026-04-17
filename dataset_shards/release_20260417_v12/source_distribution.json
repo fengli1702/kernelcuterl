@@ -1,0 +1,20 @@
+{
+  "total": 20586,
+  "by_source": {
+    "kernelbench": 244,
+    "kernelbook": 9092,
+    "cuda_agent_ops_6k": 4350,
+    "drkernel": 6677,
+    "tritonbench": 178,
+    "multikernelbench": 22,
+    "xpuoj": 23
+  },
+  "by_target_backend": {
+    "cuda": 4626,
+    "triton": 15960
+  },
+  "by_source_split": {
+    "eval": 289,
+    "train": 20297
+  }
+}

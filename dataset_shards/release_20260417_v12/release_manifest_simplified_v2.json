@@ -1,0 +1,21 @@
+{
+  "release_name": "kernel_dataset_final_v1_simplified_v2_20260417",
+  "dataset_file": "/home/i_lidaifeng/dataset/data/release/final_v1_20260417/kernel_dataset_final_v1_simplified_v2.jsonl",
+  "total_rows": 20586,
+  "simplification": {
+    "changed_rows": 20585,
+    "unchanged_rows": 1,
+    "unchanged_reasons": {
+      "no_class_and_no_callable": 1
+    }
+  },
+  "validation": {
+    "hard_fail_rows": 0,
+    "soft_non_python_rows": 0
+  },
+  "reports": {
+    "simplify_report": "/home/i_lidaifeng/dataset/data/release/final_v1_20260417/simplify_reference_interface_report_v2.json",
+    "failure_report_json": "/home/i_lidaifeng/dataset/data/release/final_v1_20260417/data_layer_failures_simplified_v2.json",
+    "failure_report_md": "/home/i_lidaifeng/dataset/data/release/final_v1_20260417/data_layer_failures_simplified_v2.md"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "dataset": "/home/i_lidaifeng/dataset/data/release/final_v1_20260417/kernel_dataset_final_v1_simplified_v3.jsonl",
+  "total_rows": 20586,
+  "parse_fail_count": 0,
+  "missing_symbol_total": {},
+  "required_symbols": [
+    "Model",
+    "ModelNew",
+    "get_inputs",
+    "get_init_inputs",
+    "run_kernel"
+  ],
+  "result": "all_rows_pass"
+}

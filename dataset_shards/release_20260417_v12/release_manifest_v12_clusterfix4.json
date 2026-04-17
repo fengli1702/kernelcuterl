@@ -1,0 +1,39 @@
+{
+  "release_tag": "release_20260417_v12_clusterfix4",
+  "description": "latest simplified dataset with category-cluster fixes (v12)",
+  "source_file": "/home/i_lidaifeng/dataset/data/release/final_v1_20260417/kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl",
+  "rows": 20586,
+  "size_bytes": 547807366,
+  "target_backends": {
+    "cuda": 4626,
+    "triton": 15960
+  },
+  "sources": {
+    "kernelbench": 244,
+    "kernelbook": 9092,
+    "cuda_agent_ops_6k": 4350,
+    "drkernel": 6677,
+    "tritonbench": 178,
+    "xpuoj": 23,
+    "multikernelbench": 22
+  },
+  "split_files": [
+    "kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.part-000",
+    "kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.part-001",
+    "kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.part-002",
+    "kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.part-003",
+    "kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.part-004",
+    "kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.part-005"
+  ],
+  "checksums": {
+    "parts_sha256_file": "kernel_dataset_final_v1_simplified_v12_clusterfix4.parts.sha256",
+    "full_sha256_file": "kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.sha256"
+  },
+  "trace_files": [
+    "release_manifest_simplified_v2.json",
+    "full_static_interface_validation_20260417.json",
+    "ref_smoke_check_simplified_v2_per_source3.json",
+    "ref_smoke_summary_simplified_v2.md"
+  ],
+  "created_at": "2026-04-17"
+}

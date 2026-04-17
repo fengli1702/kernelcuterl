@@ -206,3 +206,27 @@ For each failed sample include:
 2. Re-run full ref smoke check on all `20586` samples in Docker GPU mode.
 3. Patch failures by error cluster.
 4. Unify query wording strictly to the selected evaluator interface (KernelBench-only contract).
+
+## 10. Environment Requirements
+
+### 10.1 Dataset processing only
+
+- Linux (`x86_64`)
+- Python `>=3.10`
+- `bash` + coreutils (`cat`, `split`, `sha256sum`, `wc`)
+
+### 10.2 Full runtime smoke/eval (GPU)
+
+- Docker `>=24`
+- NVIDIA Container Toolkit
+- NVIDIA driver/NVML healthy (`nvidia-smi` must return quickly)
+- CUDA GPU resources available (not busy/unavailable)
+- Python `>=3.10`
+- PyTorch/Triton versions aligned with the evaluator code
+
+Quick preflight:
+
+```bash
+timeout 10s docker run --rm ubuntu:22.04 bash -lc 'echo no_gpu_ok'
+timeout 15s docker run --rm --gpus device=0 ubuntu:22.04 bash -lc 'echo gpu_ok'
+```

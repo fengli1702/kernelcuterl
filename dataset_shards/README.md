@@ -3,7 +3,9 @@
 This directory stores GitHub-safe raw shards for:
 
 - `canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar.jsonl`
-- `release_20260412/canonical_20260412_decontam.tar.zst.part-*` (latest decontam release)
+- `release_20260412/canonical_20260412_decontam.tar.zst.part-*`
+- `release_20260416_v6/kernelcuterl_20260416_v6_clean.tar.zst.part-*`
+- `release_20260417_v12/kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.part-*` (latest simplified dataset release)
 
 ## Files
 
@@ -25,7 +27,17 @@ cat canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar.jsonl.p
   > canonical_all_plus_xpuoj_ast_near_dedup_exact_no_kernelbench_similar.jsonl
 ```
 
-## Latest Release (2026-04-12)
+## Latest Release (2026-04-17, v12)
+
+```bash
+cd dataset_shards/release_20260417_v12
+sha256sum -c kernel_dataset_final_v1_simplified_v12_clusterfix4.parts.sha256
+cat kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.part-* \
+  > kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl
+echo "$(cat kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl.sha256)  kernel_dataset_final_v1_simplified_v12_clusterfix4.jsonl" | sha256sum -c -
+```
+
+## Previous Release (2026-04-12)
 
 ```bash
 cd dataset_shards/release_20260412
