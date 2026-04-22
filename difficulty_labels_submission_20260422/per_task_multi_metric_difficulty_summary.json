@@ -1,0 +1,170 @@
+{
+  "created_at": "2026-04-21T15:12:38.325805",
+  "inputs": {
+    "per_task": "/home/i_lidaifeng/qwen/per_task_report.csv",
+    "ir_metrics": "/home/i_lidaifeng/qwen/model_ops_ir_torch_graph_metrics_rerun.csv",
+    "rows": 15565
+  },
+  "weights_normalized": {
+    "ops": 0.25,
+    "ast_depth": 0.25,
+    "output_len": 0.15,
+    "correctness": 0.2,
+    "speedup": 0.15
+  },
+  "metric_thresholds": {
+    "ops_q25_q50_q75": [
+      2.0,
+      4.0,
+      8.0
+    ],
+    "ast_depth_q25_q50_q75": [
+      2.0,
+      3.0,
+      6.0
+    ],
+    "output_len_q25_q50_q75": [
+      1598.0,
+      3541.0,
+      8556.0
+    ],
+    "speedup_q25_q50_q75": [
+      1.1789,
+      1.7551,
+      2.8102
+    ],
+    "final_weighted_score_q25_q50_q75": [
+      1.4500000000000002,
+      2.05,
+      2.75
+    ]
+  },
+  "per_metric_level_distribution": {
+    "ops_level": {
+      "level1": 5604,
+      "level2": 3523,
+      "level3": 2784,
+      "level4": 3654
+    },
+    "ast_depth_level": {
+      "level1": 5981,
+      "level2": 2527,
+      "level3": 3381,
+      "level4": 3676
+    },
+    "output_len_level": {
+      "level1": 3892,
+      "level2": 3891,
+      "level3": 3891,
+      "level4": 3891
+    },
+    "correctness_level": {
+      "level1": 12931,
+      "level2": 0,
+      "level3": 2396,
+      "level4": 238
+    },
+    "speedup_level": {
+      "level1": 3890,
+      "level2": 3892,
+      "level3": 3890,
+      "level4": 3893
+    }
+  },
+  "final_level_distribution": {
+    "level1": 4024,
+    "level2": 3840,
+    "level3": 3853,
+    "level4": 3848
+  },
+  "metric_mean_by_final_level": {
+    "ops_metric": {
+      "level1": {
+        "count": 4024,
+        "mean": 1.918986083499006,
+        "median": 2.0
+      },
+      "level2": {
+        "count": 3840,
+        "mean": 2.9213541666666667,
+        "median": 3.0
+      },
+      "level3": {
+        "count": 3853,
+        "mean": 7.437840643654296,
+        "median": 5.0
+      },
+      "level4": {
+        "count": 3848,
+        "mean": 45.264033264033266,
+        "median": 14.0
+      }
+    },
+    "ast_depth_metric": {
+      "level1": {
+        "count": 4024,
+        "mean": 1.878479125248509,
+        "median": 2.0
+      },
+      "level2": {
+        "count": 3840,
+        "mean": 2.6356770833333334,
+        "median": 3.0
+      },
+      "level3": {
+        "count": 3853,
+        "mean": 5.08694523747729,
+        "median": 5.0
+      },
+      "level4": {
+        "count": 3848,
+        "mean": 12.128898128898129,
+        "median": 9.0
+      }
+    },
+    "output_len_metric": {
+      "level1": {
+        "count": 4024,
+        "mean": 2289.4224652087473,
+        "median": 1517.5
+      },
+      "level2": {
+        "count": 3840,
+        "mean": 4453.751041666666,
+        "median": 2335.5
+      },
+      "level3": {
+        "count": 3853,
+        "mean": 7633.217752400727,
+        "median": 5003.0
+      },
+      "level4": {
+        "count": 3848,
+        "mean": 14885.038461538461,
+        "median": 10830.0
+      }
+    },
+    "speedup_metric": {
+      "level1": {
+        "count": 4024,
+        "mean": 2.130743712723658,
+        "median": 1.6328
+      },
+      "level2": {
+        "count": 3840,
+        "mean": 2.2462916145833334,
+        "median": 1.85
+      },
+      "level3": {
+        "count": 3853,
+        "mean": 2.9070801712950947,
+        "median": 2.3669
+      },
+      "level4": {
+        "count": 3848,
+        "mean": 2.880902312889813,
+        "median": 1.3866
+      }
+    }
+  }
+}
